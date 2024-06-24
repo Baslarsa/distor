@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MenuItem } from "../types";
 
 const Menu = ({ menuItems }: { menuItems: MenuItem[] }) => {
@@ -22,9 +22,9 @@ const Menu = ({ menuItems }: { menuItems: MenuItem[] }) => {
               key={item.name}
               className={`hover:bg-purple-900 ${
                 isActive
-                  ? "bg-purple-900 border-l-white"
+                  ? "bg-purple-900 border-l-purple-900"
                   : "bg-transparent border-l-transparent"
-              } px-4 py-4 cursor-pointer bg-transparent transition-all  border-l-2`}
+              } px-4 py-4 cursor-pointer bg-transparent transition-all border-l-2 duration-300`}
             >
               {item.name}
             </li>

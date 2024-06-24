@@ -8,15 +8,8 @@ import Layout from "./components/Layout";
 import { SongAndArtist } from "./types";
 import SongRow from "./components/SongRow";
 
-function SongList() {
-  const [songs, setSongs] = useState<SongAndArtist[]>();
+function SongList({ songs }: { songs: SongAndArtist[] }) {
   const { setCurrentSong } = useAudioPlayer();
-  const { showError } = useError();
-
-  const handleGetData = async () => {
-    const data = await getSongs(showError);
-    setSongs(data.songs);
-  };
 
   const handleSetCurrentSong = (id: string) => {
     const song = songs?.find((s) => s.id === id);
@@ -24,10 +17,6 @@ function SongList() {
 
     setCurrentSong(song);
   };
-
-  useEffect(() => {
-    handleGetData();
-  }, []);
 
   return (
     <div className="flex flex-col w-full">
