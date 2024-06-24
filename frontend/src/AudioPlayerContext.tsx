@@ -1,5 +1,4 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
-import { Song } from "@prisma/client";
 import { SongAndArtist } from "./types";
 
 interface AudioPlayerContextType {
