@@ -1,0 +1,46 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x", "linux-arm64-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Song {
+  id         String     @id @default(uuid())
+  name       String
+  genre      Genre[]
+  playlists  Playlist[]
+  artist     Artist?    @relation(fields: [artistId], references: [id])
+  audio_src  String?
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  artistId   String?
+}
+
+model Artist {
+  id         String   @id @default(uuid())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  songs      Song[]
+}
+
+model Playlist {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  songs       Song[]
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model Genre {
+  id         String   @id @default(uuid())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Song       Song[]
+}

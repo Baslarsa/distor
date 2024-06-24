@@ -1,0 +1,132 @@
+{
+  "songs": [
+    {
+      "id": "4506f555-b383-4867-9d58-4477bfddaf56",
+      "name": "Kärleksvisan",
+      "audio_src": "https://storage.googleapis.com/distor-d3dc1.appspot.com/audio/KaÌrleksvisan_instr.mp3",
+      "created_at": "2024-04-04T19:48:06.296Z",
+      "updated_at": "2024-04-06T22:15:06.857Z",
+      "artistId": "8f98574a-f985-4c54-a41f-f01708f1146b"
+    },
+    {
+      "id": "c83fd816-be38-43f7-8812-026be8ba500a",
+      "name": "11.45",
+      "audio_src": "https://storage.googleapis.com/distor-d3dc1.appspot.com/audio/11.45.mp3",
+      "created_at": "2024-04-04T19:54:06.104Z",
+      "updated_at": "2024-04-06T22:15:23.743Z",
+      "artistId": "d16ecd21-6cd3-4278-9597-3f345da45c33"
+    },
+    {
+      "id": "be82ee37-3e6b-4459-a1bc-65c09aba2ce6",
+      "name": "Salzburg",
+      "audio_src": "https://storage.googleapis.com/distor-d3dc1.appspot.com/audio/Salzburg - MRDL kopia.mp3",
+      "created_at": "2024-04-04T19:56:38.170Z",
+      "updated_at": "2024-04-06T22:15:23.743Z",
+      "artistId": "d16ecd21-6cd3-4278-9597-3f345da45c33"
+    },
+    {
+      "id": "e6929c3f-5bd4-4620-b124-7c5928a12924",
+      "name": "You spoke, but never again",
+      "audio_src": "https://storage.googleapis.com/distor-d3dc1.appspot.com/audio/You spoke, but never again.mp3",
+      "created_at": "2024-04-04T19:57:08.071Z",
+      "updated_at": "2024-04-06T22:15:23.743Z",
+      "artistId": "d16ecd21-6cd3-4278-9597-3f345da45c33"
+    },
+    {
+      "id": "fd41761c-ce89-4a6b-93fc-1a10cfc3698c",
+      "name": "Hemzeiten",
+      "audio_src": "https://storage.googleapis.com/distor-d3dc1.appspot.com/audio/Sphinxly - Wermacht.mp3",
+      "created_at": "2024-04-04T19:55:42.350Z",
+      "updated_at": "2024-04-06T22:15:36.218Z",
+      "artistId": "7840cad3-00e6-490d-92b0-d67a6bad0ccf"
+    },
+    {
+      "id": "0db15451-4c99-4f32-b6e1-8fa35b5e9c35",
+      "name": "0 Emotions",
+      "audio_src": "https://storage.googleapis.com/distor-d3dc1.appspot.com/audio/0emotions.6b4fb5bf704ff4a9ca1f.mp3",
+      "created_at": "2024-04-04T19:53:01.793Z",
+      "updated_at": "2024-04-06T22:16:01.642Z",
+      "artistId": "e12b6c0d-9735-4424-a162-06ef0870cfe0"
+    }
+  ],
+  "artists": [
+    {
+      "id": "8f98574a-f985-4c54-a41f-f01708f1146b",
+      "name": "Sarah Dawn Fines",
+      "created_at": "2024-04-06T22:15:06.857Z",
+      "updated_at": "2024-04-06T22:14:54.411Z"
+    },
+    {
+      "id": "d16ecd21-6cd3-4278-9597-3f345da45c33",
+      "name": "MRDL Project",
+      "created_at": "2024-04-06T22:15:23.743Z",
+      "updated_at": "2024-04-06T22:15:08.281Z"
+    },
+    {
+      "id": "7840cad3-00e6-490d-92b0-d67a6bad0ccf",
+      "name": "David Larsson",
+      "created_at": "2024-04-06T22:15:36.218Z",
+      "updated_at": "2024-04-06T22:15:26.088Z"
+    },
+    {
+      "id": "e12b6c0d-9735-4424-a162-06ef0870cfe0",
+      "name": "Felix Sandman",
+      "created_at": "2024-04-06T22:16:01.642Z",
+      "updated_at": "2024-04-06T22:15:38.147Z"
+    }
+  ],
+  "genres": [
+    {
+      "id": "cef57cf1-27ac-4aaf-b6b2-ee0e3eaaf920",
+      "name": "R&B",
+      "created_at": "2024-04-06T21:47:00.488Z",
+      "updated_at": "2024-04-06T21:47:18.658Z"
+    },
+    {
+      "id": "d189cebc-c0e8-4a41-b894-6a7ba28f31eb",
+      "name": "Pop",
+      "created_at": "2024-04-06T21:46:46.647Z",
+      "updated_at": "2024-04-06T21:47:46.172Z"
+    },
+    {
+      "id": "9dc636ce-e07f-4e8c-b450-9319b82e23a1",
+      "name": "Electro",
+      "created_at": "2024-04-06T21:48:23.530Z",
+      "updated_at": "2024-04-06T21:48:52.600Z"
+    },
+    {
+      "id": "1fb9db3f-a8ad-4c33-a078-4d392f4929e4",
+      "name": "Rock",
+      "created_at": "2024-04-06T21:46:39.441Z",
+      "updated_at": "2024-04-06T21:49:10.156Z"
+    },
+    {
+      "id": "a2b2f2c9-2ebd-4928-a9d3-65ff075109fa",
+      "name": "Classical",
+      "created_at": "2024-04-06T21:51:15.204Z",
+      "updated_at": "2024-04-06T21:51:08.826Z"
+    },
+    {
+      "id": "d5de58f4-76f8-436d-ad94-459f643f6eeb",
+      "name": "Alternative",
+      "created_at": "2024-04-06T21:51:26.865Z",
+      "updated_at": "2024-04-06T21:51:18.574Z"
+    }
+  ],
+  "playlists": [
+    {
+      "id": "7e9f7f23-aff5-4db3-aa6a-207c1a6da73d",
+      "name": "Best songs ever",
+      "description": "My all time best songs",
+      "created_at": "2024-04-06T22:17:14.834Z",
+      "updated_at": "2024-04-06T22:16:43.461Z"
+    },
+    {
+      "id": "8df47ecd-5c6f-4c58-bb61-c9045c6da74a",
+      "name": "Cozy",
+      "description": "Cozy songs",
+      "created_at": "2024-04-06T22:17:56.570Z",
+      "updated_at": "2024-04-06T22:17:40.807Z"
+    }
+  ]
+}
