@@ -52,6 +52,14 @@ const AudioPlayerWithWaveform: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const { isPlaying, setIsPlaying } = useAudioPlayer();
 
+  useEffect(() => {
+    if (isPlaying) {
+      waveSurferRef?.current?.play();
+    } else {
+      waveSurferRef?.current?.pause();
+    }
+  }, [isPlaying]);
+
   waveSurferRef?.current?.on("audioprocess", () => {
     setCurrentTime(waveSurferRef.current?.getCurrentTime() || 0);
   });

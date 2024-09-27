@@ -1,23 +1,16 @@
 import { useEffect, useState } from "react";
-import SongList from "../SongList";
+import SongList from "../components/SongList";
 import { SongAndArtist } from "../types";
 import { getSongs } from "../network/lib/song";
 import { useError } from "../ErrorContext";
 import PageTitle from "../components/PageTitle";
+import { useContentContext } from "../ContentContext";
 
 const DiscoverPage = () => {
-  const [songs, setSongs] = useState<SongAndArtist[]>([]);
-  const { showError } = useError();
+  const { songs } = useContentContext();
 
-  const handleGetData = async () => {
-    const data = await getSongs(showError);
-    setSongs(data.songs);
-  };
-  useEffect(() => {
-    handleGetData();
-  }, []);
   return (
-    <div>
+    <div className="flex flex-col w-full">
       <PageTitle title="Discover Music" />
       <SongList songs={songs} />
     </div>

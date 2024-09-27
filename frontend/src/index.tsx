@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "./App.css";
 import reportWebVitals from "./reportWebVitals";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +9,7 @@ import { ErrorProvider } from "./ErrorContext";
 import { AudioPlayerProvider } from "./AudioPlayerContext";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
+import { ContentContextProvider } from "./ContentContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -18,7 +20,9 @@ root.render(
     <ErrorProvider>
       <ToastContainer />
       <AudioPlayerProvider>
-        <RouterProvider router={router} />
+        <ContentContextProvider>
+          <RouterProvider router={router} />
+        </ContentContextProvider>
       </AudioPlayerProvider>
     </ErrorProvider>
   </React.StrictMode>

@@ -2,6 +2,7 @@ import express from "express";
 import songRoutes from "./routes/songRoutes";
 import playlistRoutes from "./routes/playlistRoutes";
 import audioRoutes from "./routes/audioRoutes";
+import artistRoutes from "./routes/artistRoutes";
 import cors from "cors";
 
 const app = express();
@@ -15,9 +16,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Use the imported routes
-app.use(songRoutes);
-app.use(playlistRoutes);
-app.use(audioRoutes);
+app.use("/api", songRoutes);
+app.use("/api", playlistRoutes);
+app.use("/api", audioRoutes);
+app.use("/api", artistRoutes);
 
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

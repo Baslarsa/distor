@@ -6,7 +6,7 @@ export async function getSongs(
   onError: (message: string) => void
 ): Promise<{ songs: SongAndArtist[] }> {
   try {
-    const response = await axiosClient.get("/songs");
+    const response = await axiosClient.get("/api/songs");
     // Process response if necessary
     return response.data; // Assuming the songs are directly in data
   } catch (error) {
@@ -22,7 +22,7 @@ export async function createSong(
   onError: (message: string) => void
 ): Promise<any> {
   try {
-    const response = await axiosClient.post("/song", data); // axiosClient should handle JSON.stringify internally
+    const response = await axiosClient.post("/api/song", data); // axiosClient should handle JSON.stringify internally
     // Process response if necessary
     return response.data;
   } catch (error) {
