@@ -44,7 +44,7 @@ const SongRow = ({
     <div
       className={`w-full items-center cursor-pointer flex justify-between py-2 px-4 ${
         isActive ? "bg-slate-100" : ""
-      } hover:bg-slate-100 hover:text-black bg-transparent border-b border-b-gray-500 transition-all`}
+      } hover:bg-white/20 bg-transparent border-b border-b-gray-500 transition-all`}
     >
       <div className="flex gap-4 items-center" onClick={handleSongClick}>
         {songIsPlaying ? (
@@ -55,7 +55,9 @@ const SongRow = ({
         <div className="flex flex-col">
           <p className="flex items-center">
             {song.name}{" "}
-            {songIsPlaying && <img className="h-3 mx-3" src={WaveAnimation} />}
+            {songIsPlaying && (
+              <img className="h-3 mx-3 bg-red-500" src={WaveAnimation} />
+            )}
           </p>
           {song.artist && (
             <p className="text-xs opacity-50">{song.artist.name}</p>
