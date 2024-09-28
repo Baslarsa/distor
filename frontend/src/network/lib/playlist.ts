@@ -11,7 +11,6 @@ export async function addSongToPlaylist(
   onError: (message: string) => void
 ): Promise<Playlist> {
   try {
-    console.log("Adding song to playlist", playlistId, songIds);
     const response = await axiosClient.post(
       `/api/playlist-songs/${playlistId}`,
       {

@@ -26,7 +26,7 @@ const Layout = () => {
   }, []);
 
   return (
-    <div className="flex h-full max-h-screen relative overflow-hidden">
+    <div className="flex h-full max-h-screen relative overflow-hidden bg-offBlack text-white">
       <Sidebar />
       <div className="w-full flex p-4 h-full overflow-y-scroll max-h-screen">
         <div className="max-w-7xl w-full mx-auto p-4 flex">
