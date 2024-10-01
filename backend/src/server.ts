@@ -3,6 +3,7 @@ import songRoutes from "./routes/songRoutes";
 import playlistRoutes from "./routes/playlistRoutes";
 import audioRoutes from "./routes/audioRoutes";
 import artistRoutes from "./routes/artistRoutes";
+import healthCheckRoutes from "./routes/healthCheckRoutes";
 import cors from "cors";
 
 const app = express();
@@ -17,6 +18,7 @@ app.use("/api", songRoutes);
 app.use("/api", playlistRoutes);
 app.use("/api", audioRoutes);
 app.use("/api", artistRoutes);
+app.use("/api", healthCheckRoutes);
 
 const PORT = process.env.PORT || 4000;
 
