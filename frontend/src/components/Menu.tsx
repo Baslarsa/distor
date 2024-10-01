@@ -20,9 +20,9 @@ const Menu = ({ menuItems }: { menuItems: MenuItem[] }) => {
             <li
               onClick={onLinkClick}
               key={item.name}
-              className={`hover:bg-purple-900 ${
+              className={`hover:bg-white hover:text-black ${
                 isActive
-                  ? "bg-purple-900 border-l-purple-900"
+                  ? " border-l-white"
                   : "bg-transparent border-l-transparent"
               } px-4 py-4 cursor-pointer bg-transparent transition-all border-l-2 duration-300`}
             >

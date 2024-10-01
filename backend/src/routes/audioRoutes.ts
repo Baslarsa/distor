@@ -5,7 +5,9 @@ import fs from "fs";
 
 const router = express.Router();
 
-router.post("/audio-upload", upload.single("file"), async (req, res) => {
+router.post("/create-release", upload.single("file"), async (req, res) => {
+  const { name: songName, artistId } = req.body;
+
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
@@ -23,16 +25,13 @@ router.post("/audio-upload", upload.single("file"), async (req, res) => {
     fs.unlinkSync(req.file.path);
     const createSong = await prisma.song.create({
       data: {
-        name: req.body.name,
+        name: songName,
         audio_src: publicUrl,
+        artistId,
       },
     });
 
-    res.json({
-      message: "File uploaded and made public successfully.",
-      url: publicUrl,
-      song: createSong.name,
-    });
+    res.json(createSong);
   } catch (error) {
     console.error("Error uploading to Firebase:", error);
     res.status(500).send("Error uploading file.");

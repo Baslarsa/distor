@@ -26,5 +26,5 @@ const server = app.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`)
 );
 
-server.keepAliveTimeout = 120000; // 120 seconds
-server.headersTimeout = 120000; // 120 seconds
+server.keepAliveTimeout = 10000; // 120 seconds
+server.headersTimeout = 10000; // 120 seconds
