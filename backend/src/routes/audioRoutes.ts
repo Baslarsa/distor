@@ -1,41 +1,75 @@
 import express from "express";
-import { prisma } from "../prisma/client";
-import { upload, bucket } from "../storage";
+import { bucket } from "../storage";
 import fs from "fs";
+import multer from "multer";
+import { Request, Response } from "express";
 
 const router = express.Router();
 
-router.post("/create-release", upload.single("file"), async (req, res) => {
-  const { name: songName, artistId } = req.body;
+interface CustomRequest extends Request {
+  file?: Express.Multer.File;
+}
+const upload = multer({ dest: "uploads/" });
 
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
-  }
-
+async function uploadFile(
+  file: Express.Multer.File,
+  destination: string
+): Promise<string> {
   try {
-    const destination = `audio/${req.file.originalname}`;
-    const uploadedFile = await bucket.upload(req.file.path, {
+    const uploadedFile = await bucket.upload(file.path, {
       destination,
     });
-
-    const file = uploadedFile[0];
-    await file.makePublic();
+    const fileObj = uploadedFile[0];
+    await fileObj.makePublic();
     const publicUrl = `https://storage.googleapis.com/${bucket.name}/${destination}`;
 
-    fs.unlinkSync(req.file.path);
-    const createSong = await prisma.song.create({
-      data: {
-        name: songName,
-        audio_src: publicUrl,
-        artistId,
-      },
-    });
+    // Clean up local file
+    fs.unlinkSync(file.path);
 
-    res.json(createSong);
+    return publicUrl;
   } catch (error) {
-    console.error("Error uploading to Firebase:", error);
-    res.status(500).send("Error uploading file.");
+    console.error("Error uploading file:", error);
+    throw new Error("Error uploading file.");
   }
-});
+}
+
+router.post(
+  "/upload-audio",
+  upload.single("audioFile"),
+  async (req: CustomRequest, res: Response) => {
+    if (!req.file) {
+      return res.status(400).send("Audio file is required.");
+    }
+
+    try {
+      const audioDestination = `audio/${req.file.originalname}`;
+      const audioPublicUrl = await uploadFile(req.file, audioDestination);
+
+      // Create song in the database
+      res.json(audioPublicUrl);
+    } catch (error) {
+      res.status(500).send("Error uploading audio file.");
+    }
+  }
+);
+
+router.post(
+  "/upload-cover-art",
+  upload.single("coverArt"),
+  async (req: CustomRequest, res: Response) => {
+    if (!req.file) {
+      return res.status(400).send("Cover art image is required.");
+    }
+
+    try {
+      const coverArtDestination = `images/${req.file.originalname}`;
+      const coverArtPublicUrl = await uploadFile(req.file, coverArtDestination);
+
+      res.json(coverArtPublicUrl);
+    } catch (error) {
+      res.status(500).send("Error uploading cover art image.");
+    }
+  }
+);
 
 export default router;

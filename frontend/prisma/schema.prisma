@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x", "linux-arm64-openssl-1.1.x"]
 }
 
 datasource db {
@@ -7,39 +8,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Genre {
-  id         String   @id
-  name       String
-  created_at DateTime @default(now())
-  updated_at DateTime
-  Song       Song[]
-}
-
-model Playlist {
-  id          String   @id
-  name        String
-  description String
-  created_at  DateTime @default(now())
-  updated_at  DateTime
-  Song        Song[]   @relation("PlaylistToSong")
-}
-
 model Song {
-  id         String     @id
-  name       String
-  audio_src  String?
-  created_at DateTime   @default(now())
-  updated_at DateTime
-  artistId   String?
-  Artist     Artist?    @relation(fields: [artistId], references: [id])
-  Genre      Genre[]
-  Playlist   Playlist[] @relation("PlaylistToSong")
+  id            String     @id @default(uuid())
+  name          String
+  audio_src     String?
+  cover_art_src String?
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  artistId      String?
+  artist        Artist?    @relation(fields: [artistId], references: [id])
+  genre         Genre[]    @relation("GenreToSong")
+  playlists     Playlist[] @relation("PlaylistToSong")
 }
 
 model Artist {
-  id         String   @id
+  id         String   @id @default(uuid())
   name       String
   created_at DateTime @default(now())
-  updated_at DateTime
-  Song       Song[]
+  updated_at DateTime @updatedAt
+  songs      Song[]
+}
+
+model Playlist {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  songs       Song[]   @relation("PlaylistToSong")
+}
+
+model Genre {
+  id         String   @id @default(uuid())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Song       Song[]   @relation("GenreToSong")
 }

@@ -99,7 +99,10 @@ const AudioPlayerWithWaveform: React.FC = () => {
     >
       <div className="flex items-center gap-2 mx-2 relative">
         <div className="w-24 h-24 ">
-          <img className="w-full object-cover" src={exampleCoverImage} />
+          <img
+            className="w-full object-cover"
+            src={currentSong?.cover_art_src || exampleCoverImage}
+          />
         </div>
       </div>
       <div className="overflow-hidden w-64">

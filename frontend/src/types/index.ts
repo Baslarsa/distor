@@ -1,6 +1,4 @@
 import { Artist, Playlist, Song } from "@prisma/client";
-import { JSXElementConstructor, ReactNode } from "react";
-import { JsxElement } from "typescript";
 
 export type SongAndArtist = Song & { artist: Artist };
 export type PlaylistAndSongs = Playlist & { songs: Song[] };

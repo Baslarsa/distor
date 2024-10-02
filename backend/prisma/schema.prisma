@@ -9,15 +9,16 @@ datasource db {
 }
 
 model Song {
-  id         String     @id @default(uuid())
-  name       String
-  genre      Genre[]
-  playlists  Playlist[]
-  artist     Artist?    @relation(fields: [artistId], references: [id])
-  audio_src  String?
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
-  artistId   String?
+  id            String     @id @default(uuid())
+  name          String
+  audio_src     String?
+  cover_art_src String?
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  artistId      String?
+  artist        Artist?    @relation(fields: [artistId], references: [id])
+  genre         Genre[]    @relation("GenreToSong")
+  playlists     Playlist[] @relation("PlaylistToSong")
 }
 
 model Artist {
@@ -32,9 +33,9 @@ model Playlist {
   id          String   @id @default(uuid())
   name        String
   description String
-  songs       Song[]
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+  songs       Song[]   @relation("PlaylistToSong")
 }
 
 model Genre {
@@ -42,5 +43,5 @@ model Genre {
   name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  Song       Song[]
+  Song       Song[]   @relation("GenreToSong")
 }
