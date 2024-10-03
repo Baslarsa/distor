@@ -1,8 +1,9 @@
 import { Artist, Playlist, Song } from "@prisma/client";
 
-export type SongAndArtist = Song & { artist: Artist };
 export type PlaylistAndSongs = Playlist & { songs: Song[] };
-
+export interface SongAndArtist extends Song {
+  artist: Artist;
+}
 export type MenuItem = {
   name: string;
   path: string;
