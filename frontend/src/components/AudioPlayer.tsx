@@ -94,7 +94,7 @@ const AudioPlayerWithWaveform: React.FC = () => {
   return (
     <div
       className={`absolute ${
-        currentSong ? "bottom-3 flex" : "bottom-[-100%] hidden"
+        currentSong ? "bottom-3 flex" : "bottom-[-100%]"
       } bottom-3 left-3 right-3 px-2 bg-black items-center py-2 rounded-lg transition-all duration-500 shadow-lg shadow-black/50`}
     >
       <div className="flex items-center gap-2 mx-2 relative">
