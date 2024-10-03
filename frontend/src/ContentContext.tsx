@@ -24,6 +24,7 @@ interface ContentContextType {
   setBackendIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
   loadingMessage: string;
   setLoadingMessage: React.Dispatch<React.SetStateAction<string>>;
+  handleGetData: () => void;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -99,6 +100,7 @@ export const ContentContextProvider: React.FC<ContentContextProvierProps> = ({
         setBackendIsRunning,
         loadingMessage,
         setLoadingMessage,
+        handleGetData,
       }}
     >
       {children}

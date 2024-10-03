@@ -18,3 +18,16 @@ export async function getArtists(
     throw error;
   }
 }
+
+export async function createArtist(
+  { name }: { name: string },
+  onError: (message: string) => void
+) {
+  try {
+    const response = await axiosClient.post("/api/artist", { name });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to create artist:", error);
+    onError("Could not create artist");
+  }
+}

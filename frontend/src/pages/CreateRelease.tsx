@@ -6,35 +6,69 @@ import CreateReleaseForm from "../components/createRelease/CreateReleaseForm";
 import FileUpload from "../components/ui-components/FileUpload";
 import { uploadCoverArt } from "../network/lib/file-upload";
 import { OrbitProgress } from "react-loading-indicators";
+import CoverArtFileUpload from "../components/createRelease/CoverArtUpload";
+import AudioFileUpload from "../components/createRelease/AudioFileUpload";
+import { createSong } from "../network/lib/song";
+import { useError } from "../ErrorContext";
+import { useContentContext } from "../ContentContext";
+import { createArtist } from "../network/lib/artists";
+import { toast } from "react-toastify";
+import { Song } from "@prisma/client";
 
 const CreateRelease = () => {
+  const { showError } = useError();
+  const { artists, handleGetData } = useContentContext();
+  const [songName, setSongName] = useState<string>("");
+  const [artistName, setArtistName] = useState<string>("");
   const [coverArt, setCoverArt] = useState<File | null>();
+  const [audioFile, setAudioFile] = useState<File | null>();
   const [coverArtUploadStatus, setCoverArtUploadStatus] = useState<string>("");
   const [uploadedCoverArtUrl, setUploadedCoverArtUrl] = useState<string>("");
-  const [selectedAudio, setSelectedAudio] = useState<File | null>(null);
   const [audioFileUploadStatus, setAudioFileUploadStatus] =
     useState<string>("");
   const [uploadedAudioUrl, setUploadedAudioUrl] = useState<string>("");
   const handleCoverArtUploadError = (message: string) => {
     setCoverArtUploadStatus(message);
   };
+  const handleAudioFileUploadError = (message: string) => {
+    setAudioFileUploadStatus(message);
+  };
 
-  const isUploading =
-    coverArtUploadStatus === "Uploading..." ||
-    audioFileUploadStatus === "Uploading...";
+  const handleSongNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSongName(e.target.value);
+  };
+  const handleArtistNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setArtistName(e.target.value);
+  };
 
   const handleCoverArtUpload = async () => {
     if (!coverArt) {
-      setCoverArtUploadStatus("Please select an image to upload.");
       return;
     }
 
     try {
-      setCoverArtUploadStatus("Uploading...");
+      setCoverArtUploadStatus("loading");
       const url = await uploadCoverArt(coverArt, handleCoverArtUploadError);
       if (url) {
         setUploadedCoverArtUrl(url);
-        setCoverArtUploadStatus("Upload successful!");
+        setCoverArtUploadStatus("succeeded");
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
+  };
+
+  const handleAudioFileUpload = async () => {
+    if (!audioFile) {
+      return;
+    }
+
+    try {
+      setAudioFileUploadStatus("loading");
+      const url = await uploadCoverArt(audioFile, handleAudioFileUploadError);
+      if (url) {
+        setUploadedAudioUrl(url);
+        setAudioFileUploadStatus("succeeded");
       }
     } catch (error) {
       console.error("Upload failed:", error);
@@ -42,56 +76,90 @@ const CreateRelease = () => {
   };
 
   useEffect(() => {
-    if (coverArt && coverArtUploadStatus !== "Uploading...") {
+    if (coverArt && coverArtUploadStatus !== "loading") {
       handleCoverArtUpload();
     }
   }, [coverArt]);
+
+  useEffect(() => {
+    if (audioFile && audioFileUploadStatus !== "loading") {
+      handleAudioFileUpload();
+    }
+  }, [audioFile]);
 
   const handleClearCoverArt = () => {
     setCoverArt(null);
     setUploadedCoverArtUrl("");
   };
+  const handleClearAudioFile = () => {
+    setAudioFile(null);
+    setUploadedAudioUrl("");
+  };
+
+  const handleClearData = () => {
+    setSongName("");
+    setArtistName("");
+    setCoverArt(null);
+    setUploadedCoverArtUrl("");
+    setAudioFile(null);
+    setUploadedAudioUrl("");
+  };
+
+  const handleCreateRelease = async () => {
+    if (!songName || !artistName || !uploadedAudioUrl || !uploadedCoverArtUrl) {
+      return;
+    }
+    let artistId: string = "";
+    const artistExists = artists.find((artist) => artist.name === artistName);
+
+    if (artistExists) {
+      artistId = artistExists.id;
+    } else {
+      const artistCreate = await createArtist({ name: artistName }, showError);
+      artistId = artistCreate.id;
+    }
+
+    const songData: Partial<Song> = {
+      name: songName,
+      artistId,
+      audio_src: uploadedAudioUrl,
+      cover_art_src: uploadedCoverArtUrl,
+    };
+
+    const release = await createSong(songData, showError);
+    if (release) {
+      toast.success("Release created successfully");
+      handleGetData();
+      handleClearData();
+      window.location.href = "/songs";
+    }
+  };
+
   return (
     <div className="w-full">
       <PageTitle title="Create new release" />
-      <div className="p-4">
-        <div className="flex gap-6">
-          <div className="h-72 w-72 relative overflow-hidden flex justify-center items-center">
-            {isUploading ? (
-              <OrbitProgress
-                variant="disc"
-                color="white"
-                size="small"
-                text="Loading..."
-                textColor="white"
-              />
-            ) : (
-              <>
-                {uploadedCoverArtUrl && (
-                  <div
-                    className="absolute top-0 right-0 h-10 w-10 hover:h-12 hover:w-12 transition-all bg-white p-2 cursor-pointer"
-                    onClick={handleClearCoverArt}
-                  >
-                    <HiOutlineX className="text-black h-full w-full" />
-                  </div>
-                )}
-                {uploadedCoverArtUrl ? (
-                  <img
-                    src={uploadedCoverArtUrl}
-                    className="h-full object-cover"
-                  ></img>
-                ) : (
-                  <FileUpload
-                    onChange={(e) => {
-                      if (e.target.files) setCoverArt(e.target.files[0]);
-                    }}
-                  />
-                )}
-              </>
-            )}
-          </div>
-          <CreateReleaseForm />
-        </div>
+      <div className="p-4 w-full max-w-2xl">
+        <CoverArtFileUpload
+          handleClearCoverArt={handleClearCoverArt}
+          isUploading={coverArtUploadStatus === "loading"}
+          setCoverArt={setCoverArt}
+          uploadedCoverArtUrl={uploadedCoverArtUrl}
+        />
+        <AudioFileUpload
+          handleClearAudioFile={handleClearAudioFile}
+          isUploading={audioFileUploadStatus === "loading"}
+          setAudioFile={setAudioFile}
+          uploadedAudioFileUrl={uploadedAudioUrl}
+        />
+        <CreateReleaseForm
+          onArtistNameChange={handleArtistNameChange}
+          onSongNameChange={handleSongNameChange}
+          artistName={artistName}
+          songName={songName}
+        />
+        <DefaultButton className="w-full" onClick={handleCreateRelease}>
+          Create
+        </DefaultButton>
       </div>
     </div>
   );

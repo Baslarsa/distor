@@ -18,11 +18,12 @@ export async function getSongs(
 }
 
 export async function createSong(
-  data: Song,
+  data: Partial<Song>,
   onError: (message: string) => void
 ): Promise<any> {
+  console.log("data", data);
   try {
-    const response = await axiosClient.post("/api/song", data); // axiosClient should handle JSON.stringify internally
+    const response = await axiosClient.post("/api/song", data);
     // Process response if necessary
     return response.data;
   } catch (error) {

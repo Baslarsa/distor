@@ -2,8 +2,9 @@ import { ChangeEventHandler, Dispatch, SetStateAction } from "react";
 
 type FileUploadProps = {
   onChange: ChangeEventHandler<HTMLInputElement>;
+  acceptType: string;
 };
-const FileUpload = ({ onChange }: FileUploadProps) => {
+const FileUpload = ({ onChange, acceptType }: FileUploadProps) => {
   return (
     <div className="w-full h-full">
       <div className="flex items-center justify-center w-full h-full">
@@ -25,16 +26,16 @@ const FileUpload = ({ onChange }: FileUploadProps) => {
               />
             </svg>
             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              <span className="font-semibold">Click to upload</span> or drag and
-              drop
+              <span className="font-semibold">Click to upload</span>
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              SVG, PNG, JPG or GIF (MAX. 800x400px)
+              PNG, JPG or WebP (MAX. 3000x3000px)
             </p>
           </div>
           <input
             id="dropzone-file"
             type="file"
+            accept={acceptType}
             className="hidden"
             onChange={onChange}
           />

@@ -15,9 +15,14 @@ router.get("/songs", async (req, res) => {
 });
 
 router.post("/song", async (req, res) => {
+  const { name, artistId, audio_src, cover_art_src } = req.body;
+
   const song = await prisma.song.create({
     data: {
-      name: req.body.name,
+      name,
+      artistId,
+      audio_src,
+      cover_art_src,
     },
   });
   res.json(song);

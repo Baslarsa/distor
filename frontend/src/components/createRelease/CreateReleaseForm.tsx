@@ -1,27 +1,28 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEventHandler } from "react";
 import TextInput from "../ui-components/TextInput";
-import FileUpload from "../ui-components/FileUpload";
 
-type CreateReleaseState = {
+type CreateReleaseFormProps = {
+  onSongNameChange: ChangeEventHandler<HTMLInputElement>;
+  onArtistNameChange: ChangeEventHandler<HTMLInputElement>;
   songName: string;
   artistName: string;
 };
-const CreateReleaseForm = () => {
-  const [createReleaseState, setCreateReleaseState] =
-    useState<CreateReleaseState>({
-      songName: "",
-      artistName: "",
-    });
-  const handleSongNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCreateReleaseState({ ...createReleaseState, songName: e.target.value });
-  };
+const CreateReleaseForm = ({
+  onSongNameChange,
+  onArtistNameChange,
+  artistName,
+  songName,
+}: CreateReleaseFormProps) => {
   return (
     <div>
-      <TextInput
-        onChange={handleSongNameChange}
-        value={createReleaseState.songName}
-        label="Song name"
-      />
+      <div className="flex gap-6 justify-between items-center pb-12">
+        <p>Song name</p>
+        <TextInput onChange={onSongNameChange} value={songName} />
+      </div>
+      <div className="flex gap-6 justify-between items-center pb-12">
+        <p>Artist Name</p>
+        <TextInput onChange={onArtistNameChange} value={artistName} />
+      </div>
     </div>
   );
 };

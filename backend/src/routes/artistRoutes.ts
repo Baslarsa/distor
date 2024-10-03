@@ -21,4 +21,13 @@ router.get("/artists", async (req, res) => {
   }
 });
 
+router.post("/artist", async (req, res) => {
+  const artist = await prisma.artist.create({
+    data: {
+      name: req.body.name,
+    },
+  });
+  res.json({ artist });
+});
+
 export default router;
