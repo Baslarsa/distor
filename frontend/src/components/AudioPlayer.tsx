@@ -101,7 +101,10 @@ const AudioPlayerWithWaveform: React.FC = () => {
         <div className="w-24 h-24 ">
           <img
             className="w-full object-cover"
-            src={currentSong?.cover_art_src || exampleCoverImage}
+            src={
+              (currentSong?.cover_art_src && currentSong?.cover_art_src) ||
+              exampleCoverImage
+            }
           />
         </div>
       </div>
