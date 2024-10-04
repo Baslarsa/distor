@@ -6,10 +6,11 @@ import { TrophySpin } from "react-loading-indicators";
 import { Fade } from "react-awesome-reveal";
 
 const Layout = () => {
-  const { backendIsRunning, loadingMessage } = useContentContext();
+  const { backendIsRunning, loadingMessage, isLoadingData } =
+    useContentContext();
   return (
     <Fade>
-      {backendIsRunning ? (
+      {backendIsRunning && !isLoadingData && (
         <div className="flex h-full max-h-screen relative overflow-hidden bg-offBlack text-white">
           <Sidebar />
           <div className="w-full flex p-4 h-full overflow-y-scroll max-h-screen">
@@ -19,8 +20,9 @@ const Layout = () => {
           </div>
           <AudioPlayerWithWaveform />
         </div>
-      ) : (
-        <div className="w-screen h-screen flex justify-center items-center bg-black">
+      )}
+      {isLoadingData && (
+        <div className="absolute w-screen h-screen flex justify-center items-center bg-black">
           <TrophySpin
             color={["#FFFFFF", "#cccccc"]}
             size="medium"

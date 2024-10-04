@@ -25,6 +25,8 @@ interface ContentContextType {
   loadingMessage: string;
   setLoadingMessage: React.Dispatch<React.SetStateAction<string>>;
   handleGetData: () => void;
+  isLoadingData: boolean;
+  setIsLoadingData: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -44,28 +46,36 @@ interface ContentContextProvierProps {
 export const ContentContextProvider: React.FC<ContentContextProvierProps> = ({
   children,
 }) => {
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
   const [songs, setSongs] = useState<SongAndArtist[]>([]);
   const [artists, setArtists] = useState<Artist[]>([]);
   const [playlists, setPlaylists] = useState<PlaylistAndSongs[]>([]);
   const [backendIsRunning, setBackendIsRunning] = useState<boolean>(false);
   const { showError } = useError();
 
-  const [loadingMessage, setLoadingMessage] = useState<string>("Loading...");
+  const [loadingMessage, setLoadingMessage] = useState<string>("");
 
   const handleGetData = async () => {
+    setLoadingMessage("Loading data from server...");
     const { songs } = await getSongs(showError);
     const { playlists } = await getPlaylists(showError);
     const { artists } = await getArtists(showError);
 
+    setLoadingMessage("");
     setSongs(songs);
     setArtists(artists);
     setPlaylists(playlists);
   };
 
   useEffect(() => {
-    if (backendIsRunning) {
-      handleGetData();
-    }
+    const checkBackendStatus = async () => {
+      if (backendIsRunning) {
+        await handleGetData();
+        setIsLoadingData(false);
+      }
+    };
+
+    checkBackendStatus();
   }, [backendIsRunning]);
 
   useEffect(() => {
@@ -74,7 +84,7 @@ export const ContentContextProvider: React.FC<ContentContextProvierProps> = ({
         const response = await getBackendStatus(showError);
         if (response.status === 200) {
           setBackendIsRunning(true);
-          setLoadingMessage("Server is ready");
+          setLoadingMessage("");
         } else {
           throw new Error("Server not ready");
         }
@@ -101,6 +111,8 @@ export const ContentContextProvider: React.FC<ContentContextProvierProps> = ({
         loadingMessage,
         setLoadingMessage,
         handleGetData,
+        isLoadingData,
+        setIsLoadingData,
       }}
     >
       {children}

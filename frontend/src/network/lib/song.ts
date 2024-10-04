@@ -21,7 +21,6 @@ export async function createSong(
   data: Partial<Song>,
   onError: (message: string) => void
 ): Promise<any> {
-  console.log("data", data);
   try {
     const response = await axiosClient.post("/api/song", data);
     // Process response if necessary

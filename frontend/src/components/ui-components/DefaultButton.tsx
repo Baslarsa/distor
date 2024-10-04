@@ -18,9 +18,10 @@ const DefaultButton = ({
         <button
           {...props} // Spread the rest of the props here
           className={classNames(
+            "bg-transparent py-2 px-4 border",
             className,
             hover && "bg-white text-black",
-            "bg-transparent py-2 px-4"
+            !hover && "text-white"
           )}
         >
           {children}

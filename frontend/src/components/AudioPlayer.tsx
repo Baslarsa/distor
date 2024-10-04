@@ -8,9 +8,11 @@ import {
   AiFillPlayCircle,
 } from "react-icons/ai";
 import exampleCoverImage from "../assets/example-cover-art.webp";
+import { HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi";
 
 const AudioPlayerWithWaveform: React.FC = () => {
   const { currentSong } = useAudioPlayer();
+  const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const waveSurferRef = useRef<WaveSurfer>();
 
   // Initialize Wavesurfer
@@ -66,6 +68,7 @@ const AudioPlayerWithWaveform: React.FC = () => {
 
   waveSurferRef?.current?.on("play", () => {
     setIsPlaying(true);
+    setShowAudioPlayer(true);
   });
   waveSurferRef?.current?.on("pause", () => {
     setIsPlaying(false);
@@ -94,9 +97,15 @@ const AudioPlayerWithWaveform: React.FC = () => {
   return (
     <div
       className={`absolute ${
-        currentSong ? "bottom-3 flex" : "bottom-[-100%]"
+        showAudioPlayer ? "bottom-3 flex" : "bottom-[-35%]"
       } bottom-3 left-3 right-3 px-2 bg-black items-center py-2 rounded-lg transition-all duration-500 shadow-lg shadow-black/50`}
     >
+      <div
+        className="bg-white text-black px-12 right-[50%] top-0 transform translate-y-[-100%] translate-x-[50%] absolute cursor-pointer rounded-sm"
+        onClick={() => setShowAudioPlayer(!showAudioPlayer)}
+      >
+        {showAudioPlayer ? <HiOutlineChevronDown /> : <HiOutlineChevronUp />}
+      </div>
       <div className="flex items-center gap-2 mx-2 relative">
         <div className="w-24 h-24 ">
           <img

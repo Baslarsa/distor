@@ -48,3 +48,19 @@ export async function getPlaylists(
     throw error;
   }
 }
+
+export async function createPlaylist(
+  { name, description }: { name: string; description?: string },
+  onError: (message: string) => void
+) {
+  try {
+    const response = await axiosClient.post("/api/playlist", {
+      name,
+      description: description || "",
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to create playlist:", error);
+    onError("Could not create playlist");
+  }
+}

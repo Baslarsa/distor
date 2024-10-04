@@ -131,7 +131,6 @@ const CreateRelease = () => {
       toast.success("Release created successfully");
       handleGetData();
       handleClearData();
-      window.location.href = "/songs";
     }
   };
 
@@ -157,7 +156,7 @@ const CreateRelease = () => {
           artistName={artistName}
           songName={songName}
         />
-        <DefaultButton className="w-full" onClick={handleCreateRelease}>
+        <DefaultButton className="w-full border" onClick={handleCreateRelease}>
           Create
         </DefaultButton>
       </div>

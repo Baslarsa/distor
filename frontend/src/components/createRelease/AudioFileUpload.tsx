@@ -29,7 +29,7 @@ const AudioFileUpload = ({
           )}
         </div>
         <SmallFileUpload
-          acceptType="audio/*"
+          acceptType="audio/mp3"
           onChange={(e) => {
             if (e.target.files) setAudioFile(e.target.files[0]);
           }}

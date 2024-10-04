@@ -18,9 +18,9 @@ const PlaylistList = ({ playlists }: { playlists: PlaylistAndSongs[] }) => {
 
   return (
     <div className="flex flex-col w-full">
-      {playlists.map((playlist) => {
+      {playlists?.map((playlist) => {
         const songsInPlaylist: SongAndArtist[] = songs.filter((song) =>
-          playlist.songs.map((s) => s.id).includes(song.id)
+          playlist.songs?.map((s) => s.id).includes(song.id)
         );
         return (
           <PlaylistRow

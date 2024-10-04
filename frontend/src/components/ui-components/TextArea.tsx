@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { ChangeEventHandler } from "react";
 
-type TextInputProps = {
+type TextAreaProps = {
   label?: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange: ChangeEventHandler<HTMLTextAreaElement>;
   value: string;
   className?: string;
 };
-const TextInput = ({ label, onChange, value, className }: TextInputProps) => {
+const TextArea = ({ label, onChange, value, className }: TextAreaProps) => {
   return (
     <div className="text-white w-full">
       {label && (
@@ -16,18 +16,18 @@ const TextInput = ({ label, onChange, value, className }: TextInputProps) => {
         </div>
       )}
       <div>
-        <input
+        <textarea
+          rows={5}
           className={classNames(
             className,
             "text-white bg-white/5 border-b border-b-white py-2 px-3 outline-none w-full"
           )}
           value={value}
           onChange={onChange}
-          type={"text"}
         />
       </div>
     </div>
   );
 };
 
-export default TextInput;
+export default TextArea;
