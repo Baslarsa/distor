@@ -13,7 +13,7 @@ const Sidebar = () => {
   return (
     <div className="w-3/12 p-2 h-screen bg-black text-white flex flex-col justify-between">
       <div className="w-full px-2 py-12">
-        <DistorLogo className="w-full h-16 fill-white" />
+        <DistorLogo className="w-full h-24 fill-white" />
       </div>
       <div>
         <Menu menuItems={defaultMenu} />

@@ -6,7 +6,7 @@ const Menu = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="py-6 px-4">
+    <div className="py-6 px-4 pb-40">
       <ul className="flex flex-col w-full">
         {menuItems.map((item) => {
           const isActive = item.path === currentRoute;

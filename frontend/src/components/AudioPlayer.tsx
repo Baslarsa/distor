@@ -14,6 +14,13 @@ const AudioPlayerWithWaveform: React.FC = () => {
   const { currentSong } = useAudioPlayer();
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const waveSurferRef = useRef<WaveSurfer>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Store listeners in refs to properly unsubscribe later
+  const audioProcessListener = useRef<() => void>();
+  const playListener = useRef<() => void>();
+  const pauseListener = useRef<() => void>();
+  const finishListener = useRef<() => void>();
 
   // Initialize Wavesurfer
   useEffect(() => {
@@ -34,12 +41,30 @@ const AudioPlayerWithWaveform: React.FC = () => {
     };
   }, []);
 
-  // Load the audio file into both Howler and Wavesurfer when the URL changes
+  // Fetch the stream from the backend and load it into WaveSurfer
   useEffect(() => {
-    if (!currentSong?.audio_src) return;
+    const loadStream = async () => {
+      if (!currentSong?.audio_src) return;
 
-    waveSurferRef.current?.seekTo(0);
-    waveSurferRef.current?.load(currentSong.audio_src);
+      try {
+        setIsLoading(true);
+        const response = await fetch(currentSong.audio_src);
+        if (!response.ok) {
+          throw new Error("Failed to fetch the audio stream");
+        }
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+
+        waveSurferRef.current?.seekTo(0);
+        waveSurferRef.current?.load(audioUrl);
+      } catch (error) {
+        console.error("Error loading audio stream:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadStream();
   }, [currentSong?.audio_src]);
 
   useEffect(() => {
@@ -47,6 +72,7 @@ const AudioPlayerWithWaveform: React.FC = () => {
       waveSurferRef?.current?.play();
     });
   }, []);
+
   const playPause = () => {
     waveSurferRef.current?.playPause();
   };
@@ -62,23 +88,40 @@ const AudioPlayerWithWaveform: React.FC = () => {
     }
   }, [isPlaying]);
 
-  waveSurferRef?.current?.on("audioprocess", () => {
-    setCurrentTime(waveSurferRef.current?.getCurrentTime() || 0);
-  });
+  // Subscribe to events and properly unsubscribe
+  useEffect(() => {
+    if (waveSurferRef.current) {
+      audioProcessListener.current = () => {
+        setCurrentTime(waveSurferRef.current?.getCurrentTime() || 0);
+      };
+      playListener.current = () => {
+        setIsPlaying(true);
+        setShowAudioPlayer(true);
+      };
+      pauseListener.current = () => {
+        setIsPlaying(false);
+      };
+      finishListener.current = () => {
+        setIsPlaying(false);
+      };
 
-  waveSurferRef?.current?.on("play", () => {
-    setIsPlaying(true);
-    setShowAudioPlayer(true);
-  });
-  waveSurferRef?.current?.on("pause", () => {
-    setIsPlaying(false);
-  });
-
-  waveSurferRef?.current?.on("finish", () => {
-    if (isPlaying) {
-      playPause();
+      // Add event listeners
+      waveSurferRef.current.on("audioprocess", audioProcessListener.current);
+      waveSurferRef.current.on("play", playListener.current);
+      waveSurferRef.current.on("pause", pauseListener.current);
+      waveSurferRef.current.on("finish", finishListener.current);
     }
-  });
+
+    // Unsubscribe from events on cleanup
+    return () => {
+      if (waveSurferRef.current) {
+        waveSurferRef.current.un("audioprocess", audioProcessListener.current!);
+        waveSurferRef.current.un("play", playListener.current!);
+        waveSurferRef.current.un("pause", pauseListener.current!);
+        waveSurferRef.current.un("finish", finishListener.current!);
+      }
+    };
+  }, [isPlaying]);
 
   const duration = waveSurferRef?.current?.getDuration() || 0;
 
@@ -97,8 +140,8 @@ const AudioPlayerWithWaveform: React.FC = () => {
   return (
     <div
       className={`absolute ${
-        showAudioPlayer ? "bottom-3 flex" : "bottom-[-35%]"
-      } bottom-3 left-3 right-3 px-2 bg-black items-center py-2 rounded-lg transition-all duration-500 shadow-lg shadow-black/50`}
+        showAudioPlayer ? "translate-y-0" : "translate-y-[100%]"
+      } flex bottom-3 transform left-3 right-3 px-2 bg-black items-center py-2 rounded-lg transition-all duration-500 shadow-lg shadow-black/50`}
     >
       <div
         className="bg-white text-black px-12 right-[50%] top-0 transform translate-y-[-100%] translate-x-[50%] absolute cursor-pointer rounded-sm"

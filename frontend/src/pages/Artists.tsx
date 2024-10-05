@@ -5,7 +5,7 @@ import { useContentContext } from "../ContentContext";
 const Artists = () => {
   const { artists } = useContentContext();
   return (
-    <div className="w-full">
+    <div className="w-full pb-36">
       <PageTitle title="Your artists" />
       <ArtistsList artists={artists} />
     </div>

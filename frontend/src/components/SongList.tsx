@@ -15,7 +15,7 @@ function SongList({ songs }: { songs: SongAndArtist[] }) {
   ];
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full pb-36">
       {songs &&
         songs.map((song) => (
           <SongRow
